@@ -1,0 +1,36 @@
+import hashlib
+
+# المسار لملف الإدخال والمخرج
+input_file = "in.txt"
+output_file = "out.txt"
+
+# القائمة التي ستحتوي على الأرقام
+numbers = []
+
+# فتح ملف الإدخال وقراءة الأرقام
+with open(input_file, "r") as file:
+    for line in file:
+        line = line.strip()
+        try:
+            num = int(line)
+            numbers.append(num)
+        except ValueError:
+            pass
+
+# الدالة التي تقوم بتشفير الأرقام باستخدام MD5
+def encrypt_numbers(numbers):
+    encrypted_numbers = []
+    for num in numbers:
+        # تحويل الرقم إلى نص وتشفيره باستخدام MD5
+        num_str = str(num)
+        encrypted_num = hashlib.md5(num_str.encode()).hexdigest()
+        encrypted_numbers.append(encrypted_num)
+    return encrypted_numbers
+
+# تشفير الأرقام
+encrypted_numbers = encrypt_numbers(numbers)
+
+# حفظ الهاشات في ملف الإخراج
+with open(output_file, "w") as file:
+    for encrypted_num in encrypted_numbers:
+        file.write(encrypted_num + "\n")
